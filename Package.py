@@ -9,3 +9,6 @@ class Package:
 
     def __str__(self): 
         return "%s, %s, %s, %s, %s, %s" % (self.weight, self.status, self.deadline, self.address, self.city, self.zip)
+    
+    def map_array(self):
+        return [self.address, self.deadline, self.city, self.zip, self.weight, self.status]
