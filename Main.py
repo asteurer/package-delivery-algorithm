@@ -49,14 +49,12 @@ def get_time_input():
 
 
 def main():
-    print(
-"""
+    print("""
 Please enter the number of the function you want to run:
 1. View the delivery status of a package
 2. Total mileage driven by all trucks
 3. Deliver packages
-"""
-        )
+""")
     
     function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
 
