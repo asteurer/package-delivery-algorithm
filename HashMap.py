@@ -1,9 +1,9 @@
 class HashMap:
     def __init__(self):
-        self.map = [[None for _ in range(6)] for _ in range(16)] 
+        self.map = [[None for _ in range(6)] for _ in range(40)] 
 
     def hash_function(self, key, type=None):
-        return key % 16
+        return key % 40
 
     def set_value(self, key, value, type=None):
         index = self.hash_function(key)
