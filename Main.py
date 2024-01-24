@@ -55,26 +55,43 @@ def get_time_input():
     return [start_time, end_time]
 
 
-def calculate_distance(address1, address2):
-    print("This is the distance that will be calculated")
+def calculate_distance(address1, address2, address_row, address_col, address_matrix):
+    address1_col_index = -1
+    for i, entry in enumerate(address_row):
+        if address1 in entry:
+            address1_col_index = i
+        if address1_col_index != -1:
+            break
+    
+    address2_row_index = -1
+    for i, entry in enumerate(address_col):
+        if address2 in entry:
+            address2_row_index = i
+        if address2_row_index != -1:
+            break
+
+    
+    print(f"address 1 index: {address1_col_index}")
+    print(f"address 2 index: {address2_row_index}")
+    return address_matrix[address2_row_index][address1_col_index]
+
 
 
 def main():
 
-    # Loading package data
-    package_map= HashMap()
-    with open("WGUPS Package Table.csv") as csvfile:
-        reader = csv.reader(csvfile, delimiter=",")
-        next(reader, None) # Skipping header
-        for entry in reader:
-            package_map.set_value(int(entry[0]), [entry[1], entry[5], entry[2], entry[4], entry[6], "HUB"])
+    # # Loading package data
+    # package_map= HashMap()
+    # with open("WGUPS Package Table.csv") as csvfile:
+    #     reader = csv.reader(csvfile, delimiter=",")
+    #     next(reader, None) # Skipping header
+    #     for entry in reader:
+    #         package_map.set_value(int(entry[0]), [entry[1], entry[5], entry[2], entry[4], entry[6], "HUB"])
 
-    """
-    TODO: The data as it's stored in the CSV doesn't seem right, so I think we should edit the data so it's more readable.
-    """
+
     # Loading address data
     address_row = []
     address_col = []
+    address_matrix = []
     with open("WGUPS Distance Table.csv") as csvfile:
         reader = csv.reader(csvfile, delimiter=",")
         for i, row in enumerate(reader):
@@ -83,28 +100,31 @@ def main():
                 address_row = edited_row[2:]
             else:
                 address_col.append(edited_row[0])
+                address_matrix.append(edited_row[2:])
 
-
-    print(address_row)
     print(address_col)
     
-    # Requesting user interaction
-    print("""
-Please enter the number of the function you want to run:
-1. View the delivery status of a package
-2. Total mileage driven by all trucks
-3. Deliver packages
-""")
+    address1 = "1060 Dalton Ave S"
+    address2 = "233 Canyon Rd"
+    print(calculate_distance(address1, address2, address_row, address_col, address_matrix))
     
-    function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
+#     # Requesting user interaction
+#     print("""
+# Please enter the number of the function you want to run:
+# 1. View the delivery status of a package
+# 2. Total mileage driven by all trucks
+# 3. Deliver packages
+# """)
+    
+#     function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
 
-    if function_to_run in ["1", "2", "3"]:
-        if function_to_run == "1":
-            deliver_packages(get_time_input())
-        elif function_to_run == "2":
-            get_total_mileage(get_time_input())
-        elif function_to_run == "3":
-            deliver_packages()
+#     if function_to_run in ["1", "2", "3"]:
+#         if function_to_run == "1":
+#             deliver_packages(get_time_input())
+#         elif function_to_run == "2":
+#             get_total_mileage(get_time_input())
+#         elif function_to_run == "3":
+#             deliver_packages()
             
 
 main()

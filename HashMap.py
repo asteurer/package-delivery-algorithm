@@ -24,7 +24,7 @@ class HashMap:
         if type == "weight":
             self.map[index][4] = value
         if type == "status":
-            self.map[index][5] = value
+            self.map[index][5] = value # HUB, IN_TRANSIT, DELIVERED
 
         
 
