@@ -1,15 +1,13 @@
 class Truck:
-    def __init__(self, packages, depart_time):
+    def __init__(self):
+        self.driver = False
         self.capacity = 16
         self.speed = 18
-        self.packages = packages
+        self.packages = []
         self.mileage = 0
-        self.address = """
-        Western Governors University
-        4001 South 700 East,
-        Salt Lake City, UT 84107"""
-        self.depart_time = depart_time
-        self.time = depart_time
+        self.address = "4001 South 700 East" # Instantiating truck address with the HUB address.
+        self.depart_time = -1
+        self.time = -1
 
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s" % (self.capacity, self.speed, self.load, self.packages, self.mileage, self.address, self.depart_time)

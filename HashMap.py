@@ -37,7 +37,6 @@ class HashMap:
 
     def get_value(self, key, type=None):
         index = self.hash_function(key)
-        
         if type == None: 
             return self.map[index]
         else:
