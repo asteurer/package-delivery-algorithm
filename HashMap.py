@@ -1,6 +1,13 @@
+import csv
+
 class HashMap:
     def __init__(self):
-        self.map = [[None for _ in range(6)] for _ in range(40)] 
+        self.map = [[None for _ in range(6)] for _ in range(40)]
+        with open("WGUPS Package Table.csv") as csvfile:
+            reader = csv.reader(csvfile, delimiter=",")
+            next(reader, None) # Skipping header
+            for entry in reader:
+                self.set_value(int(entry[0]), [entry[1], entry[5], entry[2], entry[4], entry[6], "HUB"])
 
     def hash_function(self, key, type=None):
         return key % 40
@@ -30,6 +37,7 @@ class HashMap:
 
     def get_value(self, key, type=None):
         index = self.hash_function(key)
+        
         if type == None: 
             return self.map[index]
         else:
