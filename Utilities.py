@@ -33,3 +33,5 @@ def get_time_input(id_type):
             print("Please enter a valid time.")
 
     return [time, id]
+
+

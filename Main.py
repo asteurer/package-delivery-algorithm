@@ -14,48 +14,82 @@ def deliver_packages(truck, hash_map, addresses):
     2. PackageWithSameAddress
     3. Distance
     """ 
+    def safe_float_conversion(input_string):
+        try:
+            if input_string == '':
+                raise ValueError("Input string is empty")
+            return float(input_string)
+        except ValueError as e:
+            print(f"Error converting '{input_string}' to float: {e}")
+            return None  # Or return math.inf as appropriate for your logic
+
 
     def safe_datetime(deadline):
         if deadline != "EOD":
             return datetime.strptime(deadline, "%H:%M:%S %p").time()
         return time.max  # Return a high value for "EOD" so it's considered the least urgent
     
+    def calculate_travel_duration(distance):
+        # Calculate total hours
+        total_hours = distance / 18
+        # Convert to timedelta
+        return timedelta(hours=total_hours)
+    
     def add_time(address1, address2):
-        distance = addresses.calculate_distance(address1, address2)
-        print(f"distance: {distance}")
-        travel_duration = timedelta(hours=distance / 18)
-        truck.time += travel_duration
+        distance_str = addresses.calculate_distance(address1, address2)
+        print(f"distance: {distance_str}")
+
+        try:
+            distance = float(distance_str)
+            travel_duration = calculate_travel_duration(distance)
+
+            # Convert truck.time to a datetime object
+            current_datetime = datetime.combine(datetime.today(), truck.time)
+
+            # Add the travel duration
+            new_datetime = current_datetime + travel_duration
+
+            # Update truck.time with the new time
+            truck.time = new_datetime.time()
+        except ValueError:
+            print(f"Invalid distance value: {distance_str}")
+            
+    
     
 
     has_deadlines = True
 
     while len(truck.packages) > 0:
-        min_deadline_package_id = -1
+        min_package_id = -1
         min_deadline_package_time = time.max
 
         if has_deadlines: # If there are packages with deadlines NOT EOD...
             for entry in truck.packages:
                 deadline = safe_datetime(hash_map.get_value(entry, "deadline"))
                 if deadline < min_deadline_package_time:
-                    min_deadline_package_id = entry
+                    min_package_id = entry
                     min_deadline_package_time = deadline
                 
             
-            if min_deadline_package_id == -1:
+            if min_package_id == -1:
                 has_deadlines = False
-                min_deadline_package_id = truck.packages[len(truck.packages) - 1]
+                min_package_id = truck.packages[len(truck.packages) - 1]
         else:
             min_distance  = math.inf
             for entry in truck.packages:
-                # find the min distance
+                distance = safe_float_conversion(addresses.calculate_distance(hash_map.get_value(entry, "address"), truck.address))
+                if distance == None:
+                    distance = safe_float_conversion(addresses.calculate_distance(truck.address, hash_map.get_value(entry, "address")))
+                if distance is not None and distance < min_distance:
+                    min_package_id = entry
 
         
         # Marking the package as delivered
-        hash_map.set_value(min_deadline_package_id, "DELIVERED", "status")
-        truck.packages.remove(min_deadline_package_id)
+        hash_map.set_value(min_package_id, "DELIVERED", "status")
+        truck.packages.remove(min_package_id)
 
         # Adding travel distance and setting new current address
-        new_address = hash_map.get_value(min_deadline_package_id, "address")
+        new_address = hash_map.get_value(min_package_id, "address")
 
         add_time(new_address, truck.address)
         truck.address = new_address
@@ -64,6 +98,8 @@ def deliver_packages(truck, hash_map, addresses):
     # Adding the final trip to the hub
     add_time("4001 South 700 East", truck.address)
     truck.address = "4001 South 700 East"
+
+    print(f"final time: {truck.time}")
         
         
     
@@ -140,7 +176,7 @@ def main():
 
     
 
-    deliver_packages(truck1, package_map)
+    deliver_packages(truck1, package_map, addresses)
     # deliver_packages(truck2)
 
 
