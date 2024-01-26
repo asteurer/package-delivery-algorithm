@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 
 class HashMap:
     def __init__(self):
@@ -23,7 +24,7 @@ class HashMap:
         if type == "address":
             self.map[index][0] = value
         if type == "deadline":
-            self.map[index][1] = value
+            self.map[index][1] = datetime.strptime(value, '%I:%M %p').strftime('%H:%M')
         if type == "city":
             self.map[index][2] = value
         if type == "zip":
@@ -31,7 +32,7 @@ class HashMap:
         if type == "weight":
             self.map[index][4] = value
         if type == "status":
-            self.map[index][5] = value # HUB, IN_TRANSIT, DELIVERED
+            self.map[index][5] = value
 
         
 
