@@ -14,16 +14,6 @@ def deliver_packages(truck, hash_map, addresses):
     2. PackageWithSameAddress
     3. Distance
     """ 
-    def safe_float_conversion(input_string):
-        try:
-            if input_string == '':
-                raise ValueError("Input string is empty")
-            return float(input_string)
-        except ValueError as e:
-            print(f"Error converting '{input_string}' to float: {e}")
-            return None  # Or return math.inf as appropriate for your logic
-
-
     def safe_datetime(deadline):
         if deadline != "EOD":
             return datetime.strptime(deadline, "%H:%M:%S %p").time()
@@ -35,12 +25,11 @@ def deliver_packages(truck, hash_map, addresses):
         # Convert to timedelta
         return timedelta(hours=total_hours)
     
-    def add_time(address1, address2):
-        distance_str = addresses.calculate_distance(address1, address2)
-        print(f"distance: {distance_str}")
+    def add_time_and_distance(address1, address2):
+        distance = addresses.calculate_distance(address1, address2)
+        print(f"Address1: {address1}, Address2: {address2}, Distance: {distance}")
 
         try:
-            distance = float(distance_str)
             travel_duration = calculate_travel_duration(distance)
 
             # Convert truck.time to a datetime object
@@ -51,8 +40,11 @@ def deliver_packages(truck, hash_map, addresses):
 
             # Update truck.time with the new time
             truck.time = new_datetime.time()
+
+            # Adding the mileage on the truck
+            truck.mileage += distance 
         except ValueError:
-            print(f"Invalid distance value: {distance_str}")
+            print(f"Invalid distance value: {distance}")
             
     
     
@@ -70,16 +62,16 @@ def deliver_packages(truck, hash_map, addresses):
                     min_package_id = entry
                     min_deadline_package_time = deadline
                 
-            
             if min_package_id == -1:
                 has_deadlines = False
                 min_package_id = truck.packages[len(truck.packages) - 1]
         else:
             min_distance  = math.inf
             for entry in truck.packages:
-                distance = safe_float_conversion(addresses.calculate_distance(hash_map.get_value(entry, "address"), truck.address))
-                if distance == None:
-                    distance = safe_float_conversion(addresses.calculate_distance(truck.address, hash_map.get_value(entry, "address")))
+                address1 = hash_map.get_value(entry, "address")
+                address2 = truck.address
+                distance = addresses.calculate_distance(address1, address2)
+
                 if distance is not None and distance < min_distance:
                     min_package_id = entry
 
@@ -91,15 +83,19 @@ def deliver_packages(truck, hash_map, addresses):
         # Adding travel distance and setting new current address
         new_address = hash_map.get_value(min_package_id, "address")
 
-        add_time(new_address, truck.address)
+        print(min_package_id)
+        add_time_and_distance(new_address, truck.address)
+        print(f"Current time: {truck.time}")
         truck.address = new_address
 
     
     # Adding the final trip to the hub
-    add_time("4001 South 700 East", truck.address)
+    add_time_and_distance("4001 South 700 East", truck.address)
     truck.address = "4001 South 700 East"
 
-    print(f"final time: {truck.time}")
+    print("HUB")
+    print(f"\n\nStats for Truck {truck.id}: Time: {truck.time}, Miles: {truck.mileage}\n\n")
+   
         
         
     
@@ -154,8 +150,12 @@ def main():
             truck1.load(entry)
     
     for entry in packages_with_deadlines:
-        truck1.load(entry)
+        if len(truck1.packages) < len(truck2.packages):
+            truck1.load(entry)
+        else:
+            truck2.load(entry)
 
+    # Splitting the deadlines between trucks for efficiency
     for entry in reversed(packages_with_no_notes):
         if len(truck1.packages) < 16:
             truck1.load(entry)
@@ -174,10 +174,9 @@ def main():
         else:
             break
 
-    
 
     deliver_packages(truck1, package_map, addresses)
-    # deliver_packages(truck2)
+    deliver_packages(truck2, package_map, addresses)
 
 
     
