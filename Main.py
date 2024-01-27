@@ -1,7 +1,7 @@
 # Student ID: 0101313524
-from HashMap import HashMap
+from PackageList import PackageList
 from Truck import Truck
-from Addresses import Addresses
+from AddressList import AddressList
 from Utilities import *
 from datetime import datetime, time, timedelta
 import math
@@ -117,66 +117,30 @@ def get_delivery_status(user_input):
     """
 
 def main():
-    # Loading package data
-    package_map = HashMap()
+    # Loading data
+    address_list = AddressList()
+    package_list = PackageList(address_list)
 
-    # Loading address data
-    addresses = Addresses()
+    # # Instantiating trucks
+    # truck1 = Truck()
+    # truck2 = Truck()
+    # truck1.id = 1
+    # truck2.id = 2
+    # truck1.time = time(8)
+    # truck2.time = time(8)
 
-    # Instantiating trucks
-    truck1 = Truck()
-    truck2 = Truck()
-    truck1.id = 1
-    truck2.id = 2
-    truck1.time = time(8)
-    truck2.time = time(8)
-
-    # Segregating packages by note type
-    packages_with_deadlines = [1, 29, 30, 31, 34, 37, 40]
-    packages_with_no_notes = [2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26, 27, 33, 35, 39]
-    delivered_together = [13, 14, 15, 16, 19, 20] # Effective deadline is 9:00
-    only_truck_two = [3, 18, 36, 38]
-    flight_delay = [6, 25, 28, 32] # Arrives at 09:05
-    wrong_address = [9] # Arrives at 10:20
-
-
+    # # Segregating packages by note type
+    # packages_with_deadlines = [1, 29, 30, 31, 34, 37, 40]
+    # packages_with_no_notes = [2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26, 27, 33, 35, 39]
+    # delivered_together = [13, 14, 15, 16, 19, 20] # Effective deadline is 9:00
+    # only_truck_two = [3, 18, 36, 38]
+    # flight_delay = [6, 25, 28, 32] # Arrives at 09:05
+    # wrong_address = [9] # Arrives at 10:20
     
-    # Loading truck 1
-    for entry in delivered_together:
-        truck1.load(entry)
-    
-    for entry in packages_with_no_notes:
-        if package_map.get_value(entry, "deadline") != "EOD":
-            truck1.load(entry)
-    
-    for entry in packages_with_deadlines:
-        if len(truck1.packages) < len(truck2.packages):
-            truck1.load(entry)
-        else:
-            truck2.load(entry)
-
-    # Splitting the deadlines between trucks for efficiency
-    for entry in reversed(packages_with_no_notes):
-        if len(truck1.packages) < 16:
-            truck1.load(entry)
-            packages_with_no_notes.remove(entry)
-        else:
-            break
-
-    # Loading truck 2
-    for entry in only_truck_two:
-        truck2.load(entry)
-
-    for entry in reversed(packages_with_no_notes):
-        if len(truck2.packages) < 16:
-            truck2.load(entry)
-            packages_with_no_notes.remove(entry)
-        else:
-            break
 
 
-    deliver_packages(truck1, package_map, addresses)
-    deliver_packages(truck2, package_map, addresses)
+    # deliver_packages(truck1, package_map, addresses)
+    # deliver_packages(truck2, package_map, addresses)
 
 
     
