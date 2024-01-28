@@ -1,14 +1,14 @@
 import csv
 from Package import *
 
-class PackageList:
-    def __init__(self, address_list):
+class PackageMap:
+    def __init__(self, address_object):
         self.map = [None for _ in range(0, 40)]
         with open("WGUPS Package Table.csv") as csvfile:
             reader = csv.reader(csvfile, delimiter=",")
             next(reader, None) # Skipping header
             for entry in reader:
-                package = Package(int(entry[0]), entry[1], entry [2], entry [3], entry [4], entry [5], entry [6], entry[7], "4001 South 700 East", address_list)
+                package = Package(int(entry[0]), entry[1], entry [2], entry [3], entry [4], entry [5], entry [6], entry[7], "4001 South 700 East", address_object)
                 self.set_package(package)
 
 

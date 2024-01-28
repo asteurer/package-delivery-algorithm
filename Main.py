@@ -1,5 +1,5 @@
 # Student ID: 0101313524
-from PackageList import PackageList
+from PackageMap import PackageMap
 from Truck import Truck
 from AddressList import AddressList
 from Utilities import *
@@ -95,15 +95,6 @@ def deliver_packages(truck, hash_map, addresses):
 
     print("HUB")
     print(f"\n\nStats for Truck {truck.id}: Time: {truck.time}, Miles: {truck.mileage}\n\n")
-   
-        
-        
-    
-
-
-        
-        
-
 
 def get_total_mileage(user_input):
     print("function: total mileage")
@@ -117,25 +108,25 @@ def get_delivery_status(user_input):
     """
 
 def main():
-    # Loading data
+    # Initializing data structures
     address_list = AddressList()
-    package_list = PackageList(address_list)
+    package_map = PackageMap(address_list)
 
-    # # Instantiating trucks
-    # truck1 = Truck()
-    # truck2 = Truck()
-    # truck1.id = 1
-    # truck2.id = 2
-    # truck1.time = time(8)
-    # truck2.time = time(8)
+    # Creating trucks
+    truck1 = Truck(1)
+    truck2 = Truck(2)
+    truck3 = Truck(3) # Load this one last. Once the other two are finished, return the closest one and send out truck3.
 
-    # # Segregating packages by note type
-    # packages_with_deadlines = [1, 29, 30, 31, 34, 37, 40]
-    # packages_with_no_notes = [2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26, 27, 33, 35, 39]
-    # delivered_together = [13, 14, 15, 16, 19, 20] # Effective deadline is 9:00
-    # only_truck_two = [3, 18, 36, 38]
-    # flight_delay = [6, 25, 28, 32] # Arrives at 09:05
-    # wrong_address = [9] # Arrives at 10:20
+    truck1.load([15, 16, 34, 40, 4, 14, 13, 39, 19])
+    truck2.load([5, 37, 38, ])
+    truck3.load([31, 32, ]) # delayed on flight + other non-priority deliveries.
+
+    """
+    Order of priorities:
+    1. The deadline is soon
+    2. The package is delivered to the same house
+    3. The destination is closer
+    """
     
 
 
@@ -144,23 +135,23 @@ def main():
 
 
     
-#     # Requesting user interaction
-#     print("""
-# Please enter the number of the function you want to run:
-# 1. View the delivery status of a package
-# 2. Total mileage driven by all trucks
-# 3. Deliver packages
-# """)
+    # Requesting user interaction
+    print("""
+Please enter the number of the function you want to run:
+1. View the delivery status of a package
+2. Total mileage driven by all trucks
+3. Deliver packages
+""")
     
-#     function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
+    function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
 
-#     if function_to_run in ["1", "2", "3"]:
-#         if function_to_run == "1":
-#             get_delivery_status(get_time_input("package"))
-#         elif function_to_run == "2":
-#             get_total_mileage(get_time_input("truck"))
-#         elif function_to_run == "3":
-#             deliver_packages()
+    if function_to_run in ["1", "2", "3"]:
+        if function_to_run == "1":
+            get_delivery_status(get_time_input("package"))
+        elif function_to_run == "2":
+            get_total_mileage(get_time_input("truck"))
+        elif function_to_run == "3":
+            deliver_packages()
             
 
 main()
