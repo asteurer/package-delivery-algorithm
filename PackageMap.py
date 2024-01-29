@@ -9,6 +9,10 @@ class PackageMap:
             next(reader, None) # Skipping header
             for entry in reader:
                 package = Package(int(entry[0]), entry[1], entry [2], entry [3], entry [4], entry [5], entry [6], entry[7], "4001 South 700 East", address_object)
+
+                if (int(entry[0]) in [6, 25, 28, 32, 9]): # Setting packages that haven't arrived
+                    package.status = "AWAITING_ARRIVAL"
+
                 self.set_package(package)
 
 

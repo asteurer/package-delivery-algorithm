@@ -112,14 +112,16 @@ def main():
     address_list = AddressList()
     package_map = PackageMap(address_list)
 
-    # Creating trucks
-    truck1 = Truck(1)
-    truck2 = Truck(2)
-    truck3 = Truck(3) # Load this one last. Once the other two are finished, return the closest one and send out truck3.
+    
 
-    truck1.load([15, 16, 34, 40, 4, 14, 13, 39, 19])
-    truck2.load([5, 37, 38, ])
-    truck3.load([31, 32, ]) # delayed on flight + other non-priority deliveries.
+    # # Creating trucks
+    # truck1 = Truck(1)
+    # truck2 = Truck(2)
+    # truck3 = Truck(3) # Load this one last. Once the other two are finished, return the closest one and send out truck3.
+
+    # truck1.load([15, 16, 34, 40, 4, 14, 13, 39, 19])
+    # truck2.load([5, 37, 38, ])
+    # truck3.load([31, 32, ]) # delayed on flight + other non-priority deliveries.
 
     """
     Order of priorities:
@@ -135,23 +137,23 @@ def main():
 
 
     
-    # Requesting user interaction
-    print("""
-Please enter the number of the function you want to run:
-1. View the delivery status of a package
-2. Total mileage driven by all trucks
-3. Deliver packages
-""")
+#     # Requesting user interaction
+#     print("""
+# Please enter the number of the function you want to run:
+# 1. View the delivery status of a package
+# 2. Total mileage driven by all trucks
+# 3. Deliver packages
+# """)
     
-    function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
+#     function_to_run= input("Please enter 1, 2, 3, or any other key to cancel: ")
 
-    if function_to_run in ["1", "2", "3"]:
-        if function_to_run == "1":
-            get_delivery_status(get_time_input("package"))
-        elif function_to_run == "2":
-            get_total_mileage(get_time_input("truck"))
-        elif function_to_run == "3":
-            deliver_packages()
+#     if function_to_run in ["1", "2", "3"]:
+#         if function_to_run == "1":
+#             get_delivery_status(get_time_input("package"))
+#         elif function_to_run == "2":
+#             get_total_mileage(get_time_input("truck"))
+#         elif function_to_run == "3":
+#             deliver_packages()
             
 
 main()
