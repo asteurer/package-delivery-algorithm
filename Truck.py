@@ -38,12 +38,12 @@ class Truck:
         """
         def get_option_one_string(package_lookup_id):
             package = package_map.get_package(package_lookup_id)
-            transit_string = None
+            transit_string = ""
 
             if package.status == "IN_TRANSIT":
                 transit_string = f"It is currently on truck {package.truck_id}."
 
-            return f"Package {package_lookup_id} is in status {package.status}. {transit_string}."
+            return f"Package {package_lookup_id} is in status {package.status}. {transit_string}"
 
 
         def calculate_travel_duration(distance):
@@ -72,8 +72,8 @@ class Truck:
                 if the time is after 1020 and the wrong address package is in AWAITING_INFORMATION_UPDATE, update address and set status to HUB
                 if time_to_stop != None and package is in truck and self.time >= time_to_stop
                 """
-
-                if self.time >= time(9, 5) and self.time < time(9, 35):
+                
+                if (self.time >= time(9, 5) and self.time < time(9, 35)) or time_to_stop >= time(9, 5):
                     late_arrivals = [6, 25, 28, 32]
                     for package_id in late_arrivals:
                         package = package_map.get_package(package_id)
@@ -82,7 +82,7 @@ class Truck:
                         else:
                             break
                     
-                elif self.time >= time(10, 20) and self.time < time(10,50):
+                if (self.time >= time(10, 20) and self.time < time(10,50)) or time_to_stop >= time(10, 20):
                     package = package_map.get_package(9)
                     if package.status == "AWAITING_INFORMATION_UPDATE":
                         package.address = "410 S. State St."
@@ -94,10 +94,7 @@ class Truck:
                 if time_to_stop != None:
                     if time_to_stop >= self.time:
                         # TODO: Have better error handling
-                        if package_lookup_id not in range(1, 41):
-                            return False
-                        else:
-                            return get_option_one_string(package_lookup_id)
+                        return get_option_one_string(package_lookup_id)
 
 
                 # Adding the mileage on the truck
@@ -133,17 +130,16 @@ class Truck:
                     same_delivery_address_list.append(package)
 
             # delivering the packages
-            for package in same_delivery_address_list[:]:
+            for package in same_delivery_address_list:
                 package_map.get_package(package.id).status = "DELIVERED"
                 self.packages.remove(package)
             
             # This breaks if we are running option one and the proper time has passed
             output = add_time_and_distance(next_package.distance_from_current_address)
             
-            if output != None and output:
-                print(output)
+            if output != None:
                 isNotReturned = False
-                return
+                return output # Returns False if error, else returning the output string.
             
             package_map.set_new_current_address(address_list, next_package.address)
             self.address = next_package.address
