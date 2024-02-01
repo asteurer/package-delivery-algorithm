@@ -8,15 +8,15 @@ class Package:
         self.zip = zip
         self.weight = weight
         self.notes = notes
-        self.status = "AT_HUB" # HUB, IN_TRANSIT, DELIVERED, AWAITING_ARRIVAL
+        self.status = "HUB________________________"
         self.truck_id = 0
         self.distance_from_current_address = 0
 
         if deadline == "EOD":
-            self.deadline = time.max
+            self.deadline = time.max.strftime("%H:%M:%S")
         else:
             self.deadline =  datetime.strptime(deadline, "%H:%M:%S %p").time()
 
     def __str__(self):
-        return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.address, self.city, self.state, self.zip, self.deadline, self.weight, self.notes, self.distance_from_current_address)
+        return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.address, self.city, self.state, self.zip, self.deadline, self.weight, self.notes, self.status)
 

@@ -11,7 +11,7 @@ class PackageMap:
                 package = Package(int(entry[0]), entry[1], entry [2], entry [3], entry [4], entry [5], entry [6], entry[7], "4001 South 700 East", address_object)
 
                 if int(entry[0]) in [6, 25, 28, 32]: # Setting packages that haven't arrived
-                    package.status = "AWAITING_ARRIVAL"
+                    package.status = "AWAITING_ARRIVAL___________"
                 elif int(entry[0]) == 9:
                     package.status = "AWAITING_INFORMATION_UPDATE"
 
@@ -35,7 +35,8 @@ class PackageMap:
 
     def print_packages(self):
         for entry in self.map:
-            print(f"ID: {entry.id}, Address: {entry.address}, City: {entry.city}, State: {entry.state}, Zip: {entry.zip}, Deadline: {entry.deadline}, Weight: {entry.weight}, Notes: {entry.notes}, Distance From Current Address: {entry.distance_from_current_address}, Status: {entry.status}")
+            package_id = "{:02d}".format(entry.id)
+            print(f"Package_ID: {package_id}, Truck_ID: 0{entry.truck_id},  Deadline: {entry.deadline}, Status: {entry.status}, Address: {entry.address}")
 
 
     def set_new_current_address(self, address_object, current_address):

@@ -27,4 +27,5 @@ def get_user_input():
         else:
             print("Invalid time.")
 
+    # IMPROVEMENT: I would create a class for user_input to make this return value more readable
     return [time, int(id)]
