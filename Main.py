@@ -33,24 +33,25 @@ def get_delivery_status(time_to_stop=None, package_lookup_id=None):
     truck1.load([10, 12, 19, 22, 23, 24, 27, 35], package_map)
     truck1.deliver_packages(address_list, package_map, time_to_stop, package_lookup_id, time_param_result)
 
+    # If there is a specified time for the snapshot...
     if time_to_stop != None:
         print("\n" + time_param_result[0])
         print(f"\nStatus of all packages at time {time_to_stop}")
         time_param_result[1].print_packages()
         print("\n")
     
-
-    total_mileage = truck1.mileage + truck2.mileage
-    max_time = 0
-
-    if truck1.time > truck2.time:
-        max_time = truck1.time
     else:
-        max_time = truck2.time
+        total_mileage = truck1.mileage + truck2.mileage
+        max_time = 0
 
-    print(f"\nThe trucks finished at {max_time} with a total distance of {total_mileage} miles traveled.")
-    print(f"\nStatus of all packages as of {max_time}:")
-    package_map.print_packages()
+        if truck1.time > truck2.time:
+            max_time = truck1.time
+        else:
+            max_time = truck2.time
+
+        print(f"\nThe trucks finished at {max_time} with a total distance of {total_mileage} miles traveled.")
+        print(f"\nStatus of all packages as of {max_time}:")
+        package_map.print_packages()
 
 def main():
     # Requesting user interaction
@@ -60,7 +61,7 @@ Please enter the number of the function you want to run:
 2. View the total mileage of the trucks driven
 """)
     
-    function_to_run= input("Please enter 1, 2 or any other key to cancel: ")
+    function_to_run = input("Please enter 1, 2 or any other key to cancel: ")
 
     if function_to_run in ["1", "2"]:
         if function_to_run == "1":
