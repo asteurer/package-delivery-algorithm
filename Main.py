@@ -14,8 +14,6 @@ def get_delivery_status(time_to_stop=None, package_lookup_id=None):
     truck1 = Truck(1)
     truck2 = Truck(2)
 
-    #You are using nearest neighbor Greedy is not an algorithm, say djyskstras or brute force
-
     # Creating a snapshot object that stores the data from the time of the indicated snapshot across all truck deliveries
     time_param_result = []
 
