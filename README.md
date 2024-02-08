@@ -1,4 +1,4 @@
-# Overview
+# Package Delivery Algorithm
 
 This fulfils a school assignment requirement to solve a travelling salesman-like problem. I chose to use a nearest-neighbor algorithm with a custom hash table that delivers packages to various addresses before a deadline, within delivery truck mileage constraints, and individual package requirements. 
 
