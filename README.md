@@ -2,7 +2,7 @@
 
 This fulfils a school assignment requirement to solve a travelling salesman-like problem. I chose to use a nearest-neighbor algorithm with a custom hash table that delivers packages to various addresses before a deadline, within delivery truck mileage constraints, and individual package requirements. 
 
-# Assumptions
+## Assumptions
 
 •  Each truck can carry a maximum of 16 packages, and the ID number of each package is unique.
 
@@ -25,8 +25,14 @@ This fulfils a school assignment requirement to solve a travelling salesman-like
 •  The day ends when all 40 packages have been delivered.
 
 
-# Requirements
+## Requirements
 
 •  Write an original program that will deliver all packages and meet all requirements using the attached supporting documents “Salt Lake City Downtown Map,” “WGUPS Distance Table,” and “WGUPS Package File.
 
 •  Provide an intuitive interface for the user to view the delivery status (including the delivery time) of any package at any time and the total mileage traveled by all trucks.
+
+## Authors
+
+Andrew Steurer
+ 
+linkedin.com/in/andrewsteurer
